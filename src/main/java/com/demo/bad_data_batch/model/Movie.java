@@ -1,5 +1,6 @@
 package com.demo.bad_data_batch.model;
 
+import com.demo.bad_data_batch.util.ValidationUtil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 @Getter
@@ -29,19 +29,11 @@ public class Movie {
         if (id < 1) {
             return false;
         }
-        if (StringUtils.isBlank(title)) {
+        if (ValidationUtil.isNullOrBlank(title)) {
             log.warn("invalid title [{}]", this);
             return false;
         }
-        if ("NULL".equals(title)) {
-            log.warn("missing title {}", this);
-            return false;
-        }
-        if ("NULL".equals(year)) {
-            log.warn("missing year {}", this);
-            return false;
-        }
-        if (year.length() != 4) {
+        if (ValidationUtil.isNullOrBlank(year) || year.length() != 4) {
             log.warn("invalid year {}", this);
             return false;
         }

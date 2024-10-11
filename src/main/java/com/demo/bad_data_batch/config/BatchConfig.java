@@ -1,6 +1,9 @@
 package com.demo.bad_data_batch.config;
 
+import com.demo.bad_data_batch.domain.ActorAndDirectorCsv;
+import com.demo.bad_data_batch.model.ActorAndDirector;
 import com.demo.bad_data_batch.model.Movie;
+import com.demo.bad_data_batch.repository.ActorAndDirectorRepository;
 import com.demo.bad_data_batch.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -20,6 +23,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class BatchConfig {
     private final MovieRepository movieRepository;
+    private final ActorAndDirectorRepository actorAndDirectorRepository;
 
     @Bean
     public FlatFileItemReader<Movie> movieReader() {
@@ -43,24 +47,55 @@ public class BatchConfig {
         return movieRepository::saveAll;
     }
 
-
     @Bean
-    public Job importMoviesJob(final JobRepository jobRepository,
-                               final Step step1) {
-        return new JobBuilder("importMoviesJob", jobRepository)
-                .start(step1)
+    public FlatFileItemReader<ActorAndDirectorCsv> actorAndDirectorReader() {
+        return new FlatFileItemReaderBuilder<ActorAndDirectorCsv>()
+                .name("actorAndDirectorItemReader")
+                .linesToSkip(1)
+                .resource(new ClassPathResource("data/actors_and_directors.csv"))
+                .delimited()
+                .names("movieId", "name", "role")
+                .targetType(ActorAndDirectorCsv.class)
                 .build();
     }
 
     @Bean
-    public Step step1(final JobRepository jobRepository,
-                      final PlatformTransactionManager transactionManager,
-                      final MovieProcessor processor) {
+    public ActorAndDirectorProcessor actorAndDirectorProcessor() {
+        return new ActorAndDirectorProcessor(movieRepository);
+    }
+
+    @Bean
+    public ItemWriter<ActorAndDirector> actorAndDirectorWriter() {
+        return actorAndDirectorRepository::saveAll;
+    }
+
+    @Bean
+    public Job importMoviesJob(final JobRepository jobRepository,
+                               final Step step1,
+                               final Step step2) {
+        return new JobBuilder("importMoviesJob", jobRepository)
+                .start(step1)
+                .next(step2)
+                .build();
+    }
+
+    @Bean
+    public Step step1(final JobRepository jobRepository, final PlatformTransactionManager transactionManager) {
         return new StepBuilder("step1", jobRepository)
-                .<Movie, Movie>chunk(3, transactionManager)
+                .<Movie, Movie>chunk(10, transactionManager)
                 .reader(movieReader())
-                .processor(processor)
+                .processor(movieProcessor())
                 .writer(movieWriter())
+                .build();
+    }
+
+    @Bean
+    public Step step2(final JobRepository jobRepository, final PlatformTransactionManager transactionManager) {
+        return new StepBuilder("step2", jobRepository)
+                .<ActorAndDirectorCsv, ActorAndDirector>chunk(10, transactionManager)
+                .reader(actorAndDirectorReader())
+                .processor(actorAndDirectorProcessor())
+                .writer(actorAndDirectorWriter())
                 .build();
     }
 }

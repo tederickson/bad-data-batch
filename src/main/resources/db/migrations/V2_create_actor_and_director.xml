@@ -7,18 +7,22 @@
 
     <changeSet author="ted" id="V2_create_actor_and_director">
         <createTable tableName="ACTOR_AND_DIRECTOR">
-            <column name="id" type="int">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="movie_id" type="int">
+            <column name="movie_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="name" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="role" type="VARCHAR(20)">
+            <column name="role" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <addAutoIncrement tableName="ACTOR_AND_DIRECTOR"
+                          columnDataType="bigint"
+                          columnName="id"/>
     </changeSet>
 </databaseChangeLog>
