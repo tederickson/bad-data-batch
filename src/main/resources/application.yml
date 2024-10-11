@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: bad-data-batch
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/file-upload
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/migrations/changelog.xml
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: true
+
+logging:
+  level:
+    liquibase: INFO
