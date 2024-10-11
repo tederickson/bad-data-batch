@@ -1,4 +1,4 @@
-package com.demo.bad_data_batch.domain;
+package com.demo.bad_data_batch.dto;
 
 import com.demo.bad_data_batch.util.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;

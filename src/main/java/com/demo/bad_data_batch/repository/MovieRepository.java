@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-    List<Movie> findByTitleAndYear(final String title, final String year);
+    List<Movie> findByTitleAndYear(final String title, final int year);
 }

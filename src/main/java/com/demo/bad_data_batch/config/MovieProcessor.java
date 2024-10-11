@@ -1,5 +1,6 @@
 package com.demo.bad_data_batch.config;
 
+import com.demo.bad_data_batch.dto.MovieCsv;
 import com.demo.bad_data_batch.model.Movie;
 import com.demo.bad_data_batch.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,21 +11,25 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class MovieProcessor implements ItemProcessor<Movie, Movie> {
+public class MovieProcessor implements ItemProcessor<MovieCsv, Movie> {
     final private MovieRepository movieRepository;
 
     @Override
-    public Movie process(final Movie movie) {
+    public Movie process(final MovieCsv movie) {
         if (!movie.isValid()) {
             return null;
         }
 
-        List<Movie> movies = movieRepository.findByTitleAndYear(movie.getTitle(), movie.getYear());
+        final int year = Integer.parseInt(movie.year());
+        List<Movie> movies = movieRepository.findByTitleAndYear(movie.title(), year);
         if (!movies.isEmpty()) {
             log.info("Duplicate movie: {} matches {}", movies.getFirst(), movie);
             return null;
         }
 
-        return movie;
+        return new Movie()
+                .setId(movie.id())
+                .setTitle(movie.title())
+                .setYear(year);
     }
 }

@@ -13,7 +13,7 @@
             <column name="title" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="year" type="VARCHAR(4)">
+            <column name="year" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>

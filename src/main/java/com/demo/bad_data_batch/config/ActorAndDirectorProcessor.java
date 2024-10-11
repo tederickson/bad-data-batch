@@ -1,6 +1,6 @@
 package com.demo.bad_data_batch.config;
 
-import com.demo.bad_data_batch.domain.ActorAndDirectorCsv;
+import com.demo.bad_data_batch.dto.ActorAndDirectorCsv;
 import com.demo.bad_data_batch.model.ActorAndDirector;
 import com.demo.bad_data_batch.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;

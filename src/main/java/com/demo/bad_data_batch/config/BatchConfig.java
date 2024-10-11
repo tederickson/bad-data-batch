@@ -1,6 +1,7 @@
 package com.demo.bad_data_batch.config;
 
-import com.demo.bad_data_batch.domain.ActorAndDirectorCsv;
+import com.demo.bad_data_batch.dto.ActorAndDirectorCsv;
+import com.demo.bad_data_batch.dto.MovieCsv;
 import com.demo.bad_data_batch.model.ActorAndDirector;
 import com.demo.bad_data_batch.model.Movie;
 import com.demo.bad_data_batch.repository.ActorAndDirectorRepository;
@@ -26,14 +27,14 @@ public class BatchConfig {
     private final ActorAndDirectorRepository actorAndDirectorRepository;
 
     @Bean
-    public FlatFileItemReader<Movie> movieReader() {
-        return new FlatFileItemReaderBuilder<Movie>()
+    public FlatFileItemReader<MovieCsv> movieReader() {
+        return new FlatFileItemReaderBuilder<MovieCsv>()
                 .name("movieItemReader")
                 .linesToSkip(1)
                 .resource(new ClassPathResource("data/movies.csv"))
                 .delimited()
                 .names("id", "title", "year")
-                .targetType(Movie.class)
+                .targetType(MovieCsv.class)
                 .build();
     }
 
@@ -82,7 +83,7 @@ public class BatchConfig {
     @Bean
     public Step step1(final JobRepository jobRepository, final PlatformTransactionManager transactionManager) {
         return new StepBuilder("step1", jobRepository)
-                .<Movie, Movie>chunk(10, transactionManager)
+                .<MovieCsv, Movie>chunk(10, transactionManager)
                 .reader(movieReader())
                 .processor(movieProcessor())
                 .writer(movieWriter())
