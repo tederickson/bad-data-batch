@@ -21,7 +21,9 @@ public class MovieProcessor implements ItemProcessor<MovieCsv, Movie> {
         }
 
         final int year = Integer.parseInt(movie.year());
-        List<Movie> movies = movieRepository.findByTitleAndYear(movie.title(), year);
+        final String upperTitle = movie.title().toUpperCase();
+        List<Movie> movies = movieRepository.findByUpperTitleAndYear(upperTitle, year);
+
         if (!movies.isEmpty()) {
             log.info("Duplicate movie: {} matches {}", movies.getFirst(), movie);
             return null;
@@ -29,6 +31,7 @@ public class MovieProcessor implements ItemProcessor<MovieCsv, Movie> {
 
         return new Movie()
                 .setId(movie.id())
+                .setUpperTitle(upperTitle)
                 .setTitle(movie.title())
                 .setYear(year);
     }

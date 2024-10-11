@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Movie {
     @Id
     private Long id;
+    private String upperTitle;
     private String title;
     private Integer year;
 }

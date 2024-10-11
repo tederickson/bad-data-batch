@@ -10,6 +10,9 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="upper_title" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
             <column name="title" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
@@ -18,8 +21,8 @@
             </column>
         </createTable>
 
-        <createIndex tableName="MOVIE" indexName="MOVIE_title">
-            <column name="title"/>
+        <createIndex tableName="MOVIE" indexName="MOVIE_uppercase_title">
+            <column name="upper_title"/>
         </createIndex>
     </changeSet>
 </databaseChangeLog>
