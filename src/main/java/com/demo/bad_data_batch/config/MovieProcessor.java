@@ -21,7 +21,7 @@ public class MovieProcessor implements ItemProcessor<MovieCsv, Movie> {
         }
 
         final int year = Integer.parseInt(movie.year());
-        final String upperTitle = movie.title().toUpperCase();
+        final String upperTitle = movie.title().toUpperCase().trim();
         List<Movie> movies = movieRepository.findByUpperTitleAndYear(upperTitle, year);
 
         if (!movies.isEmpty()) {
