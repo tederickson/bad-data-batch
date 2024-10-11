@@ -15,10 +15,15 @@ public class MovieProcessor implements ItemProcessor<Movie, Movie> {
 
     @Override
     public Movie process(final Movie movie) {
-        List<Movie> movies = movieRepository.findByTitleAndYear(movie.getTitle(),
-                                                                movie.getYear());
+        if (!movie.isValid()) {
+            return null;
+        }
 
-        movies.forEach(dbMovie -> log.info("Duplicate movie: {} matches {}", dbMovie, movie));
+        List<Movie> movies = movieRepository.findByTitleAndYear(movie.getTitle(), movie.getYear());
+        if (!movies.isEmpty()) {
+            log.info("Duplicate movie: {} matches {}", movies.getFirst(), movie);
+            return null;
+        }
 
         return movie;
     }

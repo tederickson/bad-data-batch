@@ -33,6 +33,14 @@ public class Movie {
             log.warn("invalid title [{}]", this);
             return false;
         }
+        if ("NULL".equals(title)) {
+            log.warn("missing title {}", this);
+            return false;
+        }
+        if ("NULL".equals(year)) {
+            log.warn("missing year {}", this);
+            return false;
+        }
         if (year.length() != 4) {
             log.warn("invalid year {}", this);
             return false;
