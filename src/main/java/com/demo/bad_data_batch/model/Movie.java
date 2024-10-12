@@ -2,21 +2,14 @@ package com.demo.bad_data_batch.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Getter
-@Setter
+
 @Accessors(chain = true)
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
 public class Movie {
     @Id
@@ -24,4 +17,18 @@ public class Movie {
     private String upperTitle;
     private String title;
     private Integer year;
+
+    static public String buildKey(final String text) {
+        char[] characters = text.toCharArray();
+        char[] letters = new char[characters.length];
+
+        int index = 0;
+        for (char character : characters) {
+            if (!Character.isWhitespace(character)) {
+                letters[index++] = Character.toUpperCase(character);
+            }
+        }
+
+        return String.copyValueOf(letters, 0, index);
+    }
 }
