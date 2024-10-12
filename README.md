@@ -23,3 +23,29 @@ Some issues found with actors_and_directors.csv:
 The database contains 827,505 rows while actors_and_directors.csv contains 844,338 lines.
 
 The majority of the discrepancy is due to removal of duplicate movies.
+
+# Code Structure
+* client - calls the REST API methods.  Useful for other microservices and integration tests.
+* config - Spring Batch config and processors plus Open API config
+* controller - REST controllers that handle queries and the advice that handles Exceptions
+* domain - REST DTO exposed to public domain
+* dto - DTO for CSV data models
+* exception - Business Exceptions that are caught and handled by the ControllerAdvice
+* mapper - classes that convert a model type to another model type
+* model - internal business models
+* repository - interact with PostgreSQL database
+* service - business logic 
+* util - DRY principal: these classes consolidate methods used by multiple classes
+
+# Run the Application
+Run the following command in a terminal window:
+
+```bash
+mvn clean spring-boot:run
+```
+
+# Documentation
+Swagger provides the API documentation of the REST endpoints.  
+Run the application and point a browser to http://localhost:8080/swagger-ui.html
+
+# Database
