@@ -9,7 +9,9 @@ import com.demo.bad_data_batch.repository.ActorAndDirectorRepository;
 import com.demo.bad_data_batch.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,12 +28,18 @@ public class MovieService {
         return ModelMapper.toRest(movie);
     }
 
-    public List<MovieDigest> getMovies(final Integer year, final Pageable pageable) {
+    public PagedModel<MovieDigest> getMovies(final Integer year, final Pageable pageable) {
         if (year < 1000) {
             throw new InvalidRequestException("Invalid year " + year);
         }
-        return movieRepository.findByYear(year, pageable).stream()
+        var page = movieRepository.findByYear(year, pageable);
+
+        long totalElements = page.getTotalElements();
+        List<MovieDigest> content = page.getContent().stream()
                 .map(ModelMapper::toRest)
                 .toList();
+
+        var pageImpl = new PageImpl<>(content, pageable, totalElements);
+        return new PagedModel<>(pageImpl);
     }
 }

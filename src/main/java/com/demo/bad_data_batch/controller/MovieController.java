@@ -8,12 +8,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,8 +34,8 @@ public class MovieController {
     @ApiResponses(value = { //
             @ApiResponse(responseCode = "200", description = "Get Movies")})
     @GetMapping(value = "/years/{year}", produces = "application/json")
-    public List<MovieDigest> getMovies(@PathVariable("year") Integer year,
-                                       Pageable pageable) {
+    public PagedModel<MovieDigest> getMovies(@PathVariable("year") Integer year,
+                                             Pageable pageable) {
         return movieService.getMovies(year, pageable);
     }
 }
