@@ -4,6 +4,9 @@ import com.demo.bad_data_batch.model.ActorAndDirector;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ActorAndDirectorRepository extends JpaRepository<ActorAndDirector, Long> {
+    List<ActorAndDirector> findByMovieIdOrderByRole(final long movieId);
 }

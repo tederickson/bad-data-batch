@@ -5,7 +5,6 @@ import com.demo.bad_data_batch.exception.InvalidRequestException;
 import com.demo.bad_data_batch.exception.NotFoundException;
 import com.demo.bad_data_batch.mapper.ModelMapper;
 import com.demo.bad_data_batch.model.Movie;
-import com.demo.bad_data_batch.repository.ActorAndDirectorRepository;
 import com.demo.bad_data_batch.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,6 @@ import java.util.List;
 @Slf4j
 public class MovieService {
     private final MovieRepository movieRepository;
-    private final ActorAndDirectorRepository actorAndDirectorRepository;
 
     public MovieDigest getMovie(final Long id) {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new NotFoundException("Movie " + id));
