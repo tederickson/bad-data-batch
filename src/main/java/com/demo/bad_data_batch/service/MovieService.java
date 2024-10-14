@@ -8,9 +8,9 @@ import com.demo.bad_data_batch.model.Movie;
 import com.demo.bad_data_batch.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,19 +26,18 @@ public class MovieService {
         return ModelMapper.toRest(movie);
     }
 
-    public PagedModel<MovieDigest> getMoviesByYear(final Integer year, final Pageable pageable) {
+    public Page<MovieDigest> getMoviesByYear(final Integer year, final Pageable pageable) {
         if (year < 1000) {
             throw new InvalidRequestException("Invalid year " + year);
         }
-        var page = movieRepository.findByYear(year, pageable);
+        Page<Movie> pages = movieRepository.findByYear(year, pageable);
 
-        long totalElements = page.getTotalElements();
-        List<MovieDigest> content = page.getContent().stream()
+        long totalElements = pages.getTotalElements();
+        List<MovieDigest> content = pages.getContent().stream()
                 .map(ModelMapper::toRest)
                 .toList();
 
-        var pageImpl = new PageImpl<>(content, pageable, totalElements);
-        return new PagedModel<>(pageImpl);
+        return new PageImpl<>(content, pageable, totalElements);
     }
 
     public List<MovieDigest> getMoviesByTitle(final String title) {

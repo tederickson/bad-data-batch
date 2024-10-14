@@ -38,6 +38,17 @@ The majority of the discrepancy is due to removal of duplicate movies.
 * service - business logic 
 * util - DRY principal: these classes consolidate methods used by multiple classes
 
+# First Steps
+1. Delete file-upload database 
+2. Create file-upload database
+
+# Run all tests
+Run the following command in a terminal window:
+
+```bash
+mvn clean install
+```
+
 # Run the Application
 Run the following command in a terminal window:
 
