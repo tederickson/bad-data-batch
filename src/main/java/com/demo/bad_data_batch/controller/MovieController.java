@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Movie Query API")
@@ -34,8 +36,16 @@ public class MovieController {
     @ApiResponses(value = { //
             @ApiResponse(responseCode = "200", description = "Get Movies")})
     @GetMapping(value = "/years/{year}", produces = "application/json")
-    public PagedModel<MovieDigest> getMovies(@PathVariable("year") Integer year,
+    public PagedModel<MovieDigest> getMoviesByYear(@PathVariable("year") Integer year,
                                              Pageable pageable) {
-        return movieService.getMovies(year, pageable);
+        return movieService.getMoviesByYear(year, pageable);
+    }
+
+    @Operation(summary = "Get all movies by title")
+    @ApiResponses(value = { //
+            @ApiResponse(responseCode = "200", description = "Get Movies")})
+    @GetMapping(value = "/titles/{title}", produces = "application/json")
+    public List<MovieDigest> getMoviesByTitle(@PathVariable("title") String title) {
+        return movieService.getMoviesByTitle(title);
     }
 }

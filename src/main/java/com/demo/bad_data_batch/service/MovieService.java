@@ -26,7 +26,7 @@ public class MovieService {
         return ModelMapper.toRest(movie);
     }
 
-    public PagedModel<MovieDigest> getMovies(final Integer year, final Pageable pageable) {
+    public PagedModel<MovieDigest> getMoviesByYear(final Integer year, final Pageable pageable) {
         if (year < 1000) {
             throw new InvalidRequestException("Invalid year " + year);
         }
@@ -39,5 +39,14 @@ public class MovieService {
 
         var pageImpl = new PageImpl<>(content, pageable, totalElements);
         return new PagedModel<>(pageImpl);
+    }
+
+    public List<MovieDigest> getMoviesByTitle(final String title) {
+        final String titleKey = Movie.buildKey(title);
+        if (titleKey.isEmpty()) {throw new InvalidRequestException("Invalid title [" + title + "]");}
+
+        return movieRepository.findByUpperTitle(titleKey).stream()
+                .map(ModelMapper::toRest)
+                .toList();
     }
 }

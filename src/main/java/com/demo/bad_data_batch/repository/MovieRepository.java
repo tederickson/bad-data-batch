@@ -13,5 +13,7 @@ import java.util.List;
 public interface MovieRepository extends JpaRepository<Movie, Long> , PagingAndSortingRepository<Movie, Long> {
     List<Movie> findByUpperTitleAndYear(final String upperTitle, final int year);
 
+    List<Movie> findByUpperTitle(final String upperTitle);
+
     Page<Movie> findByYear(final int year, final Pageable pageable);
 }

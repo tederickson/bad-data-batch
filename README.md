@@ -19,6 +19,7 @@ The database contains 182,634 rows while movies.csv contains 184,784 lines.
 # Actor And Director Data Integrity
 Some issues found with actors_and_directors.csv:
 * Missing name - 300170," ",director
+* 272 different roles instead of the expected two roles: actor, director
 
 The database contains 827,505 rows while actors_and_directors.csv contains 844,338 lines.
 
