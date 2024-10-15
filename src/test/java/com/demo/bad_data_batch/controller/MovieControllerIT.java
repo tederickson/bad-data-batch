@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -39,7 +40,7 @@ class MovieControllerIT {
     @Test
     void getMoviesByYear() {
         Pageable pageable = PageRequest.of(7, 21);
-        var movies = client.getMoviesByYear(2000, pageable);
+        Page<MovieDigest> movies = client.getMoviesByYear(2000, pageable);
 
         assertThat(movies.getContent(), hasSize(21));
         assertThat(movies.stream().map(MovieDigest::year).distinct().toList(), hasSize(1));
