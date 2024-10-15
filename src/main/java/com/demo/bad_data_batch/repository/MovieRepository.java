@@ -15,5 +15,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long> , PagingAndS
 
     List<Movie> findByUpperTitle(final String upperTitle);
 
-    Page<Movie> findByYear(final int year, final Pageable pageable);
+    Page<Movie> findByYearOrderByTitle(final int year, final Pageable pageable);
 }
