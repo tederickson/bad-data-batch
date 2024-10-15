@@ -15,6 +15,7 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -72,8 +73,8 @@ public class BatchConfig {
 
     @Bean
     public Job importMoviesJob(final JobRepository jobRepository,
-                               final Step step1,
-                               final Step step2) {
+                               @Qualifier("step1") final Step step1,
+                               @Qualifier("step2") final Step step2) {
         return new JobBuilder("importMoviesJob", jobRepository)
                 .start(step1)
                 .next(step2)

@@ -41,7 +41,7 @@ class MovieControllerIT {
         Pageable pageable = PageRequest.of(7, 21);
         var movies = client.getMoviesByYear(2000, pageable);
 
-        assertThat(movies, hasSize(21));
+        assertThat(movies.getContent(), hasSize(21));
         assertThat(movies.stream().map(MovieDigest::year).distinct().toList(), hasSize(1));
     }
 

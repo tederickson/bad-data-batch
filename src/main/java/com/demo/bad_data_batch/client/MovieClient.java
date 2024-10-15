@@ -3,6 +3,7 @@ package com.demo.bad_data_batch.client;
 import com.demo.bad_data_batch.domain.ActorAndDirectorDigest;
 import com.demo.bad_data_batch.domain.MovieDigest;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.client.RestClient;
 
@@ -24,7 +25,7 @@ public class MovieClient {
                 .body(MovieDigest.class);
     }
 
-    public List<MovieDigest> getMoviesByYear(Integer year, Pageable pageable) {
+    public Page<MovieDigest> getMoviesByYear(Integer year, Pageable pageable) {
         return restClient.get()
                 .uri("/movie/years/{year}?page={pageNumber}&size={pageSize}",
                      year,
