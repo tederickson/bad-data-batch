@@ -27,7 +27,7 @@ public class MovieClient {
 
     public Page<MovieDigest> getMoviesByYear(Integer year, Pageable pageable) {
         return restClient.get()
-                .uri("/movie/years/{year}?page={pageNumber}&size={pageSize}",
+                .uri("/movie/years/{year}?pageNumber={pageNumber}&pageSize={pageSize}",
                      year,
                      pageable.getPageNumber(),
                      pageable.getPageSize()

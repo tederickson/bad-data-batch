@@ -35,11 +35,11 @@ public class MovieController {
 
     @Operation(summary = "Get all movies for one year")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get Movies")})
-    @GetMapping(value = "/years/{year}?page={page}&size={size}", produces = "application/json")
+    @GetMapping(value = "/years/{year}", produces = "application/json")
     public Page<MovieDigest> getMoviesByYear(@PathVariable("year") Integer year,
-                                             @RequestParam() Integer page,
-                                             @RequestParam() Integer size) {
-        return movieService.getMoviesByYear(year, PageRequest.of(page, size));
+                                             @RequestParam(defaultValue = "0") Integer pageNumber,
+                                             @RequestParam(defaultValue = "25") Integer pageSize) {
+        return movieService.getMoviesByYear(year, PageRequest.of(pageNumber, pageSize));
     }
 
     @Operation(summary = "Get all movies by title")
