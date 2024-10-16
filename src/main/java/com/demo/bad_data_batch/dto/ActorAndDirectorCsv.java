@@ -4,7 +4,7 @@ import com.demo.bad_data_batch.util.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public record ActorAndDirectorCsv(long movieId, String name, String role) {
+public record ActorAndDirectorCsv(long id, long movieId, String name, String role) {
     public boolean isValid() {
         if (movieId < 1) {
             return false;

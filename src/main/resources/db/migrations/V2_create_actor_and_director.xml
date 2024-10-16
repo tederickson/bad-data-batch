@@ -20,9 +20,5 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
-        <addAutoIncrement tableName="ACTOR_AND_DIRECTOR"
-                          columnDataType="bigint"
-                          columnName="id"/>
     </changeSet>
 </databaseChangeLog>
