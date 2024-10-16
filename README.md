@@ -42,6 +42,8 @@ The majority of the discrepancy is due to removal of duplicate movies.
 1. Delete file-upload database 
 2. Create file-upload database
 
+actors_and_directors.csv has been updated to provide a primary key.  All imports now produce the same result.
+
 # Run all tests
 Run the following command in a terminal window:
 
@@ -59,5 +61,3 @@ mvn clean spring-boot:run
 # Documentation
 Swagger provides the API documentation of the REST endpoints.  
 Run the application and point a browser to http://localhost:8080/swagger-ui.html
-
-# Database
