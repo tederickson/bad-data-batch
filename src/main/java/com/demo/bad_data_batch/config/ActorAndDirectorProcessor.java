@@ -21,6 +21,7 @@ public class ActorAndDirectorProcessor implements ItemProcessor<ActorAndDirector
         }
 
         return new ActorAndDirector()
+                .setId(item.id())
                 .setMovieId(item.movieId())
                 .setName(item.name())
                 .setRole(item.role());

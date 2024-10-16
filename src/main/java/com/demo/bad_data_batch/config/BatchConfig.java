@@ -56,7 +56,7 @@ public class BatchConfig {
                 .linesToSkip(1)
                 .resource(new ClassPathResource("data/actors_and_directors.csv"))
                 .delimited()
-                .names("movieId", "name", "role")
+                .names("id", "movieId", "name", "role")
                 .targetType(ActorAndDirectorCsv.class)
                 .build();
     }
