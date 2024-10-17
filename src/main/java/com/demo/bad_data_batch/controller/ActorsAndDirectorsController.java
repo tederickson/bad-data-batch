@@ -19,13 +19,13 @@ import java.util.List;
 @Tag(name = "Actors and Directors Query API")
 @RequestMapping("movie")
 public class ActorsAndDirectorsController {
-    private final ActorsAndDirectorsService movieService;
+    private final ActorsAndDirectorsService actorsAndDirectorsService;
 
     @Operation(summary = "Get Movie Cast")
     @ApiResponses(value = { //
             @ApiResponse(responseCode = "200", description = "Get Movie Cast")})
     @GetMapping(value = "/movies/{movieId}", produces = "application/json")
     public List<ActorAndDirectorDigest> getCast(@PathVariable("movieId") Long movieId) {
-        return movieService.getMovieCast(movieId);
+        return actorsAndDirectorsService.getMovieCast(movieId);
     }
 }

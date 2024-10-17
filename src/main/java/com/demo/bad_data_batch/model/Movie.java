@@ -19,6 +19,10 @@ public class Movie {
     private Integer year;
 
     static public String buildKey(final String text) {
+        if (text == null) {
+            return "";
+        }
+
         char[] characters = text.toCharArray();
         char[] letters = new char[characters.length];
 
