@@ -30,6 +30,10 @@ Some issues found with actors_and_directors.csv with columns "movieId", "name", 
 
 The database contains 827,126 rows while actors_and_directors.csv contains 844,338 lines.
 
+An ETL was performed on actors_and_directors.csv to add a unique id to each row.
+The original file is found in actors_and_directors.original.csv.  
+The change ensures that multiple imports produce the same results.
+
 Database modified to store duplicate movies.
 The actor_and_director table now contains 836771 rows.  There are 7567 invalid entries.
 
