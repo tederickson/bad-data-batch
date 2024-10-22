@@ -7,5 +7,6 @@
 
     <include file="V1_create_movie.xml" relativeToChangelogFile="true"/>
     <include file="V2_create_actor_and_director.xml" relativeToChangelogFile="true"/>
+    <include file="create_duplicate_movie.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

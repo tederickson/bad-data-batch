@@ -5,6 +5,7 @@ import com.demo.bad_data_batch.dto.MovieCsv;
 import com.demo.bad_data_batch.model.ActorAndDirector;
 import com.demo.bad_data_batch.model.Movie;
 import com.demo.bad_data_batch.repository.ActorAndDirectorRepository;
+import com.demo.bad_data_batch.repository.DuplicateMovieRepository;
 import com.demo.bad_data_batch.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -26,6 +27,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class BatchConfig {
     private final MovieRepository movieRepository;
     private final ActorAndDirectorRepository actorAndDirectorRepository;
+    private final DuplicateMovieRepository duplicateMovieRepository;
 
     @Bean
     public FlatFileItemReader<MovieCsv> movieReader() {
@@ -41,7 +43,7 @@ public class BatchConfig {
 
     @Bean
     public MovieProcessor movieProcessor() {
-        return new MovieProcessor(movieRepository);
+        return new MovieProcessor(movieRepository, duplicateMovieRepository);
     }
 
     @Bean

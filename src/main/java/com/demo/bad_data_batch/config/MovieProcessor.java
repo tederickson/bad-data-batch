@@ -1,18 +1,19 @@
 package com.demo.bad_data_batch.config;
 
 import com.demo.bad_data_batch.dto.MovieCsv;
+import com.demo.bad_data_batch.model.DuplicateMovie;
 import com.demo.bad_data_batch.model.Movie;
+import com.demo.bad_data_batch.repository.DuplicateMovieRepository;
 import com.demo.bad_data_batch.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 public class MovieProcessor implements ItemProcessor<MovieCsv, Movie> {
     final private MovieRepository movieRepository;
+    final private DuplicateMovieRepository duplicateMovieRepository;
 
     @Override
     public Movie process(final MovieCsv movie) {
@@ -25,7 +26,11 @@ public class MovieProcessor implements ItemProcessor<MovieCsv, Movie> {
         List<Movie> movies = movieRepository.findByUpperTitleAndYear(upperTitle, year);
 
         if (!movies.isEmpty()) {
-            log.info("Duplicate movie: {} matches {}", movies.getFirst(), movie);
+            DuplicateMovie duplicateMovie = new DuplicateMovie();
+
+            duplicateMovie.setId(movie.id());
+            duplicateMovie.setMovieId(movies.getFirst().getId());
+            duplicateMovieRepository.save(duplicateMovie);
             return null;
         }
 
