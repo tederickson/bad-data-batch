@@ -23,7 +23,7 @@ There are 75 invalid movie entries.
 
 # Actor And Director Data Integrity
 Some issues found with actors_and_directors.csv with columns "movieId", "name", "role":
-* 272 different roles instead of the expected two roles: actor, director
+* 272 different roles instead of the expected two roles: actor, director - 42768, "Stephen King", writer
 * Missing name - 300170," ",director
 * Invalid movie id - 282774,"Ty Fenton",cast
 * Changes in role capitalization - 283055,"Andy Bausch",Cast
@@ -34,7 +34,7 @@ An ETL was performed on actors_and_directors.csv to add a unique id to each row.
 The original file is found in actors_and_directors.original.csv.  
 The change ensures that multiple imports produce the same results.
 
-Database modified to store duplicate movies.
+Database was modified to store duplicate movies in duplicate_movie.
 The actor_and_director table now contains 836771 rows.  There are 7567 invalid entries.
 
 There are 675,916 rows that are not actor or director roles.
