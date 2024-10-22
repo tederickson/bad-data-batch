@@ -56,7 +56,8 @@ There are 675,916 rows that are not actor or director roles.
 1. Delete file-upload database 
 2. Create file-upload database
 
-actors_and_directors.csv has been updated to provide a primary key.  All imports now produce the same result.
+actors_and_directors.csv has been updated to provide a primary key.  
+All imports now produce the same result in the ACTOR_AND_DIRECTOR table.
 
 # Run all tests
 Run the following command in a terminal window:
