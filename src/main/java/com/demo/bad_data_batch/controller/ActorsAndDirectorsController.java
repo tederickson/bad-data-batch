@@ -25,7 +25,7 @@ public class ActorsAndDirectorsController {
     @ApiResponses(value = { //
             @ApiResponse(responseCode = "200", description = "Get Movie Cast")})
     @GetMapping(value = "/movies/{movieId}", produces = "application/json")
-    public List<ActorAndDirectorDigest> getCast(@PathVariable("movieId") Long movieId) {
+    public List<ActorAndDirectorDigest> getCast(@PathVariable("movieId") final Long movieId) {
         return actorsAndDirectorsService.getMovieCast(movieId);
     }
 }

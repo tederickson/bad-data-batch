@@ -1,7 +1,9 @@
 package com.demo.bad_data_batch.controller;
 
+import com.demo.bad_data_batch.domain.MovieDigest;
 import com.demo.bad_data_batch.exception.InvalidRequestException;
 import com.demo.bad_data_batch.exception.NotFoundException;
+import com.demo.bad_data_batch.model.Movie;
 import com.demo.bad_data_batch.repository.MovieRepository;
 import com.demo.bad_data_batch.service.MovieService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +14,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -33,8 +38,20 @@ class MovieControllerTest {
     }
 
     @Test
-    void getMovie() {
+    void getMovie_notFound() {
         assertThrows(NotFoundException.class, () -> movieController.getMovie(123L));
+    }
+
+    @Test
+    void getMovie() {
+        Long movieId = 123L;
+        Movie movie = new Movie().setId(movieId);
+
+        when(movieRepository.findById(movieId)).thenReturn(Optional.of(movie));
+
+        MovieDigest movieDigest = movieController.getMovie(movieId);
+        assertNotNull(movieDigest);
+        assertThat(movieDigest.id(), is(movieId));
     }
 
     @Test
@@ -60,6 +77,5 @@ class MovieControllerTest {
     @NullAndEmptySource
     void getMoviesByTitle_withInvalidTitle(final String title) {
         assertThrows(InvalidRequestException.class, () -> movieController.getMoviesByTitle(title));
-
     }
 }

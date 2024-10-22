@@ -12,20 +12,20 @@ import java.util.List;
 public class MovieClient {
     private final RestClient restClient;
 
-    public MovieClient(String server, int port) {
+    public MovieClient(final String server, final int port) {
         restClient = RestClient.builder()
                 .baseUrl("http://" + server + ":" + port)
                 .build();
     }
 
-    public MovieDigest getMovie(Long id) {
+    public MovieDigest getMovie(final Long id) {
         return restClient.get()
                 .uri("/movie/{id}", id)
                 .retrieve()
                 .body(MovieDigest.class);
     }
 
-    public Page<MovieDigest> getMoviesByYear(Integer year, Pageable pageable) {
+    public Page<MovieDigest> getMoviesByYear(final Integer year, final Pageable pageable) {
         return restClient.get()
                 .uri("/movie/years/{year}?pageNumber={pageNumber}&pageSize={pageSize}",
                      year,
@@ -36,14 +36,14 @@ public class MovieClient {
                 .body(new ParameterizedTypeReference<>() {});
     }
 
-    public List<MovieDigest> getMoviesByTitle(String title) {
+    public List<MovieDigest> getMoviesByTitle(final String title) {
         return restClient.get()
                 .uri("/movie/titles/{title}", title)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
     }
 
-    public List<ActorAndDirectorDigest> getCast(Long movieId) {
+    public List<ActorAndDirectorDigest> getCast(final Long movieId) {
         return restClient.get()
                 .uri("/cast/movies/{movieId}", movieId)
                 .retrieve()
