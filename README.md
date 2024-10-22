@@ -20,13 +20,16 @@ There are 75 invalid movie entries.
 
 # Actor And Director Data Integrity
 Some issues found with actors_and_directors.csv:
-* Missing name - 300170," ",director
 * 272 different roles instead of the expected two roles: actor, director
+* Missing name - 300170," ",director
 * Invalid movie id - 282774,"Ty Fenton",cast
 
 The database contains 827,126 rows while actors_and_directors.csv contains 844,338 lines.
+
 Database modified to store duplicate movies.
 The actor_and_director table now contains 836771 rows.  There are 7567 invalid entries.
+
+There are 675,916 rows that are not actor or director roles.
 
 # Code Structure
 * client - calls the REST API methods.  Useful for other microservices and integration tests.
