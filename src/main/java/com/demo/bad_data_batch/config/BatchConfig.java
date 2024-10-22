@@ -65,7 +65,7 @@ public class BatchConfig {
 
     @Bean
     public ActorAndDirectorProcessor actorAndDirectorProcessor() {
-        return new ActorAndDirectorProcessor(movieRepository);
+        return new ActorAndDirectorProcessor(movieRepository, duplicateMovieRepository);
     }
 
     @Bean

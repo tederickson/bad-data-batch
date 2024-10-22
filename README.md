@@ -15,13 +15,18 @@ Some issues found with movies.csv:
 * Changes in capitalization
 
 The database contains 182,548 rows while movies.csv contains 184,784 lines.
+The duplicate_movie table contains 2161 rows.
+There are 75 invalid movie entries.
 
 # Actor And Director Data Integrity
 Some issues found with actors_and_directors.csv:
 * Missing name - 300170," ",director
 * 272 different roles instead of the expected two roles: actor, director
+* Invalid movie id - 282774,"Ty Fenton",cast
 
 The database contains 827,126 rows while actors_and_directors.csv contains 844,338 lines.
+Database modified to store duplicate movies.
+The actor_and_director table contains 836771 rows.  There are 7567 invalid entries.
 
 The majority of the discrepancy is due to removal of duplicate movies.
 
