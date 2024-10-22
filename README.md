@@ -26,9 +26,7 @@ Some issues found with actors_and_directors.csv:
 
 The database contains 827,126 rows while actors_and_directors.csv contains 844,338 lines.
 Database modified to store duplicate movies.
-The actor_and_director table contains 836771 rows.  There are 7567 invalid entries.
-
-The majority of the discrepancy is due to removal of duplicate movies.
+The actor_and_director table now contains 836771 rows.  There are 7567 invalid entries.
 
 # Code Structure
 * client - calls the REST API methods.  Useful for other microservices and integration tests.
