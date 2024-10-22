@@ -7,22 +7,26 @@ The two CSV files contain duplicates and invalid data.
 Try different ways to handle importing invalid information.
 
 # Movie Data Integrity
-Some issues found with movies.csv:
+All movie ids are unique.  Movie ids are not sequential.
+
+Some issues found with movies.csv with columns "id", "title", "year":
 * Missing year - id=302152, title=Of Girls and Horses, year=NULL
 * Titles with leading/trailing spaces - 271991," Novo, novo Vrijeme: Who Wants to be a President",2001
 * Duplicate title and year - id=302322, title=American Ultra, year=2015
-* Spaces between words
-* Changes in capitalization
+* Spaces between title words
+* Changes in title capitalization
 
 The database contains 182,548 rows while movies.csv contains 184,784 lines.
 The duplicate_movie table contains 2161 rows.
 There are 75 invalid movie entries.
 
+
 # Actor And Director Data Integrity
-Some issues found with actors_and_directors.csv:
+Some issues found with actors_and_directors.csv with columns "movieId", "name", "role":
 * 272 different roles instead of the expected two roles: actor, director
 * Missing name - 300170," ",director
 * Invalid movie id - 282774,"Ty Fenton",cast
+* Changes in role capitalization - 283055,"Andy Bausch",Cast
 
 The database contains 827,126 rows while actors_and_directors.csv contains 844,338 lines.
 
