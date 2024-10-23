@@ -28,4 +28,12 @@ public class ActorsAndDirectorsController {
     public List<ActorAndDirectorDigest> getCast(@PathVariable("movieId") final Long movieId) {
         return actorsAndDirectorsService.getMovieCast(movieId);
     }
+
+    @Operation(summary = "Get Distinct Roles" )
+    @ApiResponses(value = { //
+            @ApiResponse(responseCode = "200", description = "Get Distinct Roles" )})
+    @GetMapping(value = "/roles", produces = "application/json" )
+    public List<String> findByDistinctRole() {
+        return actorsAndDirectorsService.findByDistinctRole();
+    }
 }

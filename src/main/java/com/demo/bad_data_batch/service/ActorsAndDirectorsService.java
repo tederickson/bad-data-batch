@@ -20,4 +20,8 @@ public class ActorsAndDirectorsService {
                 .map(ActorAndDirectoryMapper::toRest)
                 .toList();
     }
+
+    public List<String> findByDistinctRole() {
+        return actorAndDirectorRepository.findByDistinctRole();
+    }
 }

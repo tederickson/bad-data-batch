@@ -34,7 +34,7 @@ There are 75 invalid movie entries.
 Some issues found with actors_and_directors.csv with columns "movieId", "name", "role":
 * 272 different roles instead of the expected two roles: actor, director - 42768, "Stephen King", writer
 * Missing name - 300170," ",director
-* Invalid movie id - 282774,"Ty Fenton",cast
+* Invalid movie id (movie id is not in MOVIE table) - 282774,"Ty Fenton",cast
 * Changes in role capitalization - 283055,"Andy Bausch",Cast
 
 The database contains 827,126 rows while actors_and_directors.csv contains 844,338 lines.

@@ -41,4 +41,9 @@ class ActorsAndDirectorsControllerTest {
                 ));
         assertThat(actorsAndDirectorsController.getCast(MOVIE_ID), hasSize(1));
     }
+
+    @Test
+    void findByDistinctRole() {
+        assertThat(actorsAndDirectorsController.findByDistinctRole(), hasSize(0));
+    }
 }
