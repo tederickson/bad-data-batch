@@ -30,10 +30,10 @@ public class MovieService {
         if (year < 1000) {
             throw new InvalidRequestException("Invalid year " + year);
         }
-        Page<Movie> pages = movieRepository.findByYearOrderByTitle(year, pageable);
+        Page<Movie> page = movieRepository.findByYearOrderByTitle(year, pageable);
 
-        long totalElements = pages.getTotalElements();
-        List<MovieDigest> content = pages.getContent().stream()
+        long totalElements = page.getTotalElements();
+        List<MovieDigest> content = page.getContent().stream()
                 .map(ModelMapper::toRest)
                 .toList();
 

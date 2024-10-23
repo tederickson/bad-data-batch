@@ -20,10 +20,10 @@ public class DuplicateMovieService {
     private final DuplicateMovieRepository duplicateMovieRepository;
 
     public Page<DuplicateMovieDigest> findMismatchedTitles(final Pageable pageable) {
-        Page<DuplicateMovie> pages = duplicateMovieRepository.findMismatchedTitles(pageable);
+        Page<DuplicateMovie> page = duplicateMovieRepository.findMismatchedTitles(pageable);
 
-        long totalElements = pages.getTotalElements();
-        List<DuplicateMovieDigest> content = pages.getContent().stream()
+        long totalElements = page.getTotalElements();
+        List<DuplicateMovieDigest> content = page.getContent().stream()
                 .map(DuplicateModelMapper::toRest)
                 .toList();
 
