@@ -13,6 +13,15 @@
             <column name="movie_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="title" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duplicate_title" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="year" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

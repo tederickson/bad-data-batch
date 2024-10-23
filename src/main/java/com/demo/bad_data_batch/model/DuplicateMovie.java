@@ -10,4 +10,7 @@ public class DuplicateMovie {
     @Id
     private long id;
     private long movieId;
+    private String title;
+    private String duplicateTitle;
+    private int year;
 }
