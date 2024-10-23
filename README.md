@@ -48,7 +48,7 @@ Database was modified to store duplicate movies in duplicate_movie.
 The actor_and_director table now contains 836,771 rows.  There are 7,567 invalid entries.
 The majority of the invalid entries do not contain a movie id found in the MOVIE table.
 
-There are 675,916 rows that are not actor or director roles.
+There are 20,399 rows that are not actor or director roles.
 
 # Code Structure
 * client - calls the REST API methods.  Useful for other microservices and integration tests.
