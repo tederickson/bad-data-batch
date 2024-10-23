@@ -50,6 +50,15 @@ The majority of the invalid entries do not contain a movie id found in the MOVIE
 
 There are 20,399 rows that are not actor or director roles.
 
+| Role  | Count  |
+|---|---|
+| cast  | 655134  |
+| director  |  161238 |
+| writer  |  6423 |
+| screenwriter  |  2459 |
+| producer  |  2264 |
+| cinematographer  |  1328 |
+
 # Code Structure
 * client - calls the REST API methods.  Useful for other microservices and integration tests.
 * config - Spring Batch config and processors plus Open API config
