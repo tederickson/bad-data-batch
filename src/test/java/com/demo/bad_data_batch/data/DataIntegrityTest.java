@@ -22,6 +22,7 @@ public class DataIntegrityTest {
 
     @Test
     void ableToParseActorsAndDirector() throws Exception {
+        final int columnCount = 4;
         int validCount = 0;
         int invalidCount = 0;
 
@@ -31,12 +32,15 @@ public class DataIntegrityTest {
                  BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                  CSVReader reader = new CSVReader(bufferedReader)) {
 
-                reader.readNext();
+                String[] row = reader.readNext();
+                assertThat(row.length, is(columnCount));
+                assertThat(row[0], is("id"));
+                assertThat(row[1], is("movie_id"));
+                assertThat(row[2], is("name"));
+                assertThat(row[3], is("role"));
 
-                String[] row;
                 while ((row = reader.readNext()) != null) {
-                    // "id", "movieId", "name", "role"
-                    assertThat(row.length, is(4));
+                    assertThat(row.length, is(columnCount));
 
                     int column = 0;
                     int id = Integer.parseInt(row[column++]);
@@ -67,6 +71,7 @@ public class DataIntegrityTest {
 
     @Test
     void ableToParseMovies() throws Exception {
+        final int columnCount = 3;
         int validCount = 0;
         int invalidCount = 0;
 
@@ -76,12 +81,14 @@ public class DataIntegrityTest {
                  BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                  CSVReader reader = new CSVReader(bufferedReader)) {
 
-                reader.readNext();
+                String[] row = reader.readNext();
+                assertThat(row.length, is(columnCount));
+                assertThat(row[0], is("id"));
+                assertThat(row[1], is("title"));
+                assertThat(row[2], is("year"));
 
-                String[] row;
                 while ((row = reader.readNext()) != null) {
-                    // "id", "title", "year"
-                    assertThat(row.length, is(3));
+                    assertThat(row.length, is(columnCount));
 
                     int column = 0;
                     int id = Integer.parseInt(row[column++]);
