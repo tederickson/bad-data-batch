@@ -21,7 +21,12 @@ Some issues found with movies.csv with columns "id", "title", "year":
   * 11553,"Hold Back the Dawn",1941
 
 The database contains 182,548 rows while movies.csv contains 184,784 lines.
-The duplicate_movie table contains 2161 rows.
+
+The duplicate_movie table contains 2161 rows:
+
+* 1,839 matching titles
+* 322 differing titles
+
 There are 75 invalid movie entries.
 
 
