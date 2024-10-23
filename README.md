@@ -35,7 +35,7 @@ The original file is found in actors_and_directors.original.csv.
 The change ensures that multiple imports produce the same results.
 
 Database was modified to store duplicate movies in duplicate_movie.
-The actor_and_director table now contains 836771 rows.  There are 7567 invalid entries.
+The actor_and_director table now contains 836,771 rows.  There are 7,567 invalid entries.
 
 There are 675,916 rows that are not actor or director roles.
 
