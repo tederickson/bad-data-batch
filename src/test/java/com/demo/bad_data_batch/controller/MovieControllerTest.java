@@ -4,7 +4,9 @@ import com.demo.bad_data_batch.domain.MovieDigest;
 import com.demo.bad_data_batch.exception.InvalidRequestException;
 import com.demo.bad_data_batch.exception.NotFoundException;
 import com.demo.bad_data_batch.model.Movie;
+import com.demo.bad_data_batch.repository.DuplicateMovieRepository;
 import com.demo.bad_data_batch.repository.MovieRepository;
+import com.demo.bad_data_batch.service.DuplicateMovieService;
 import com.demo.bad_data_batch.service.MovieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,12 +31,15 @@ import static org.mockito.Mockito.when;
 class MovieControllerTest {
     private MovieController movieController;
     private MovieRepository movieRepository;
+    private DuplicateMovieRepository duplicateMovieRepository;
 
     @BeforeEach
     void setUp() {
         movieRepository = mock(MovieRepository.class);
+        duplicateMovieRepository = mock(DuplicateMovieRepository.class);
         MovieService movieService = new MovieService(movieRepository);
-        movieController = new MovieController(movieService);
+        DuplicateMovieService duplicateMovieService = new DuplicateMovieService(duplicateMovieRepository);
+        movieController = new MovieController(movieService, duplicateMovieService);
     }
 
     @Test
@@ -77,5 +82,15 @@ class MovieControllerTest {
     @NullAndEmptySource
     void getMoviesByTitle_withInvalidTitle(final String title) {
         assertThrows(InvalidRequestException.class, () -> movieController.getMoviesByTitle(title));
+    }
+
+    @Test
+    void findMismatchedTitles() {
+        when(duplicateMovieRepository.findMismatchedTitles(any()))
+                .thenReturn(new PageImpl<>(List.of(),
+                                           PageRequest.of(3, 7),
+                                           0));
+
+        assertThat(movieController.findMismatchedTitles(3, 7).getContent(), hasSize(0));
     }
 }

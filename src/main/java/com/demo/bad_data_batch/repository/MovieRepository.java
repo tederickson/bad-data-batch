@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, Long> , PagingAndSortingRepository<Movie, Long> {
+public interface MovieRepository extends JpaRepository<Movie, Long>, PagingAndSortingRepository<Movie, Long> {
     List<Movie> findByUpperTitleAndYear(final String upperTitle, final int year);
 
     List<Movie> findByUpperTitle(final String upperTitle);

@@ -1,6 +1,8 @@
 package com.demo.bad_data_batch.controller;
 
+import com.demo.bad_data_batch.domain.DuplicateMovieDigest;
 import com.demo.bad_data_batch.domain.MovieDigest;
+import com.demo.bad_data_batch.service.DuplicateMovieService;
 import com.demo.bad_data_batch.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequestMapping("movie")
 public class MovieController {
     private final MovieService movieService;
+    private final DuplicateMovieService duplicateMovieService;
 
     @Operation(summary = "Get Movie")
     @ApiResponses(value = { //
@@ -47,5 +50,13 @@ public class MovieController {
     @GetMapping(value = "/titles/{title}", produces = "application/json")
     public List<MovieDigest> getMoviesByTitle(@PathVariable("title") final String title) {
         return movieService.getMoviesByTitle(title);
+    }
+
+    @Operation(summary = "Get all duplicate movies with differing titles")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get Duplicate Movies")})
+    @GetMapping(value = "/duplicates", produces = "application/json")
+    public Page<DuplicateMovieDigest> findMismatchedTitles(@RequestParam(defaultValue = "0") final Integer pageNumber,
+                                                           @RequestParam(defaultValue = "25") final Integer pageSize) {
+        return duplicateMovieService.findMismatchedTitles(PageRequest.of(pageNumber, pageSize));
     }
 }
