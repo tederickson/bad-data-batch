@@ -19,12 +19,11 @@ public class ActorAndDirectorProcessor implements ItemProcessor<ActorAndDirector
         if (!item.isValid()) {
             return null;
         }
-        if (movieRepository.findById(item.movieId()).isEmpty()) {
-            if (duplicateMovieRepository.findById(item.movieId()).isEmpty()) {
+        if (movieRepository.findById(item.movieId()).isEmpty()
+                && duplicateMovieRepository.findById(item.movieId()).isEmpty()) {
                 log.error("Invalid movie Id: {}", item);
                 return null;
             }
-        }
 
         return new ActorAndDirector()
                 .setId(item.id())
