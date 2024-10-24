@@ -12,7 +12,9 @@ All movie ids are unique.  Movie ids are not sequential.
 Some issues found with movies.csv with columns "id", "title", "year":
 * Missing year - id=302152, title=Of Girls and Horses, year=NULL
 * Titles with leading/trailing spaces - 271991," Novo, novo Vrijeme: Who Wants to be a President",2001
-* Duplicate title and year - id=302322, title=American Ultra, year=2015
+* Duplicate title and year:
+  * 290669,"American Ultra",2015
+  * 302322,"American Ultra",2015
 * Spaces between title words
   * 13882,Airspeed,1998
   * 12875,"Air Speed",1998
