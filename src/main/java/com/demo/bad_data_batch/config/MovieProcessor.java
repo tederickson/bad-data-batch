@@ -26,18 +26,22 @@ public class MovieProcessor implements ItemProcessor<MovieCsv, Movie> {
         List<Movie> movies = movieRepository.findByUpperTitleAndYear(upperTitle, year);
 
         if (!movies.isEmpty()) {
-            Movie original = movies.getFirst();
-            DuplicateMovie duplicateMovie = new DuplicateMovie();
+            if (movies.stream()
+                    .map(Movie::getId)
+                    .filter(n -> movie.id() == n)
+                    .findAny().isEmpty()) {
+                Movie original = movies.getFirst();
+                DuplicateMovie duplicateMovie = new DuplicateMovie();
 
-            duplicateMovie.setId(movie.id());
-            duplicateMovie.setDuplicateTitle(movie.title());
+                duplicateMovie.setId(movie.id());
+                duplicateMovie.setDuplicateTitle(movie.title());
 
-            duplicateMovie.setMovieId(original.getId());
-            duplicateMovie.setTitle(original.getTitle());
-            duplicateMovie.setYear(original.getYear());
+                duplicateMovie.setMovieId(original.getId());
+                duplicateMovie.setTitle(original.getTitle());
+                duplicateMovie.setYear(original.getYear());
 
-            duplicateMovieRepository.save(duplicateMovie);
-
+                duplicateMovieRepository.save(duplicateMovie);
+            }
             return null;
         }
 

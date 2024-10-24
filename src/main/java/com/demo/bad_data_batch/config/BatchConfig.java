@@ -75,8 +75,8 @@ public class BatchConfig {
 
     @Bean
     public Job importMoviesJob(final JobRepository jobRepository,
-                               @Qualifier("step1") final Step step1,
-                               @Qualifier("step2") final Step step2) {
+                               @Qualifier("importMovies") final Step step1,
+                               @Qualifier("importPeople") final Step step2) {
         return new JobBuilder("importMoviesJob", jobRepository)
                 .start(step1)
                 .next(step2)
@@ -84,9 +84,10 @@ public class BatchConfig {
     }
 
     @Bean
-    public Step step1(final JobRepository jobRepository, final PlatformTransactionManager transactionManager) {
-        return new StepBuilder("step1", jobRepository)
-                .<MovieCsv, Movie>chunk(10, transactionManager)
+    public Step importMovies(final JobRepository jobRepository, final PlatformTransactionManager transactionManager) {
+        // Serial processing so that DUPLICATE_MOVIE is consistently populated with the same values
+        return new StepBuilder("importMovies", jobRepository)
+                .<MovieCsv, Movie>chunk(1, transactionManager)
                 .reader(movieReader())
                 .processor(movieProcessor())
                 .writer(movieWriter())
@@ -94,8 +95,8 @@ public class BatchConfig {
     }
 
     @Bean
-    public Step step2(final JobRepository jobRepository, final PlatformTransactionManager transactionManager) {
-        return new StepBuilder("step2", jobRepository)
+    public Step importPeople(final JobRepository jobRepository, final PlatformTransactionManager transactionManager) {
+        return new StepBuilder("importPeople", jobRepository)
                 .<ActorAndDirectorCsv, ActorAndDirector>chunk(10, transactionManager)
                 .reader(actorAndDirectorReader())
                 .processor(actorAndDirectorProcessor())
