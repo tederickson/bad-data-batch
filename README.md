@@ -76,8 +76,7 @@ There are 20,399 rows that are not actor or director roles.
 * util - DRY principal: these classes consolidate methods used by multiple classes
 
 # First Steps
-1. Delete file-upload database 
-2. Create file-upload database
+Create file-upload database in local PostgreSQL.
 
 actors_and_directors.csv has been updated to provide a primary key.  
 All imports now produce the same result in the ACTOR_AND_DIRECTOR table.
