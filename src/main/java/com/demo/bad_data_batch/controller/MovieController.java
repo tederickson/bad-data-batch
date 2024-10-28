@@ -1,6 +1,7 @@
 package com.demo.bad_data_batch.controller;
 
 import com.demo.bad_data_batch.domain.DuplicateMovieDigest;
+import com.demo.bad_data_batch.domain.DuplicateMoviePageDigest;
 import com.demo.bad_data_batch.domain.MovieDigest;
 import com.demo.bad_data_batch.service.DuplicateMovieService;
 import com.demo.bad_data_batch.service.MovieService;
@@ -58,5 +59,13 @@ public class MovieController {
     public Page<DuplicateMovieDigest> findMismatchedTitles(@RequestParam(defaultValue = "0") final Integer pageNumber,
                                                            @RequestParam(defaultValue = "25") final Integer pageSize) {
         return duplicateMovieService.findMismatchedTitles(PageRequest.of(pageNumber, pageSize));
+    }
+
+    @Operation(summary = "Get duplicate movies")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get Duplicate and Original Movies")})
+    @GetMapping(value = "/duplicates/aggregate", produces = "application/json")
+    public Page<DuplicateMoviePageDigest> findDuplicateTitles(@RequestParam(defaultValue = "0") final Integer pageNumber,
+                                                              @RequestParam(defaultValue = "5") final Integer pageSize) {
+        return duplicateMovieService.findDuplicateTitles(PageRequest.of(pageNumber, pageSize));
     }
 }

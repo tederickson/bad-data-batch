@@ -26,10 +26,27 @@ The database contains 182,548 rows while movies.csv contains 184,784 lines.
 
 The duplicate_movie table contains 2161 rows:
 
-* 1,839 matching titles
+* 1,839 matching titles (multiple duplicates for the same title)
 * 322 differing titles
 
 There are 75 invalid movie entries.
+
+
+```sql
+SELECT movie_id, Count(*)
+FROM   PUBLIC.duplicate_movie
+GROUP  BY movie_id
+HAVING Count(*) > 4
+ORDER  BY Count(*) DESC, movie_id 
+```
+
+| movie id | count |
+|----------|-------|
+| 274080   | 8     |
+| 18876    | 5     |
+| 273324   | 5     |
+| 273694   | 5     |
+| 273702   | 5     |
 
 
 # Actor And Director Data Integrity

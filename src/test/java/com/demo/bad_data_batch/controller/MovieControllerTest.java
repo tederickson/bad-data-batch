@@ -1,8 +1,11 @@
 package com.demo.bad_data_batch.controller;
 
+import com.demo.bad_data_batch.domain.DuplicateMoviePageDigest;
 import com.demo.bad_data_batch.domain.MovieDigest;
 import com.demo.bad_data_batch.exception.InvalidRequestException;
 import com.demo.bad_data_batch.exception.NotFoundException;
+import com.demo.bad_data_batch.model.DuplicateMovieCount;
+import com.demo.bad_data_batch.model.IDuplicateMovieCount;
 import com.demo.bad_data_batch.model.Movie;
 import com.demo.bad_data_batch.repository.DuplicateMovieRepository;
 import com.demo.bad_data_batch.repository.MovieRepository;
@@ -12,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
@@ -33,12 +37,13 @@ class MovieControllerTest {
     private MovieRepository movieRepository;
     private DuplicateMovieRepository duplicateMovieRepository;
 
+
     @BeforeEach
     void setUp() {
         movieRepository = mock(MovieRepository.class);
         duplicateMovieRepository = mock(DuplicateMovieRepository.class);
         MovieService movieService = new MovieService(movieRepository);
-        DuplicateMovieService duplicateMovieService = new DuplicateMovieService(duplicateMovieRepository);
+        DuplicateMovieService duplicateMovieService = new DuplicateMovieService(duplicateMovieRepository, movieService);
         movieController = new MovieController(movieService, duplicateMovieService);
     }
 
@@ -92,5 +97,25 @@ class MovieControllerTest {
                                            0));
 
         assertThat(movieController.findMismatchedTitles(3, 7).getContent(), hasSize(0));
+    }
+
+    @Test
+    void findDuplicateTitles() {
+        Long movieId = 12345L;
+        Movie movie = new Movie().setId(movieId);
+        IDuplicateMovieCount iDuplicateMovieCount = new DuplicateMovieCount(movieId, 1L);
+        when(duplicateMovieRepository.findDuplicateTitles(any()))
+                .thenReturn(new PageImpl<>(List.of(iDuplicateMovieCount),
+                                           PageRequest.of(1, 12),
+                                           17));
+        when(movieRepository.findById(movieId)).thenReturn(Optional.of(movie));
+        Page<DuplicateMoviePageDigest> response = movieController.findDuplicateTitles(1, 12);
+
+        assertThat(response.getContent(), hasSize(1));
+
+        DuplicateMoviePageDigest digest = response.getContent().getFirst();
+        assertThat(digest.getCount(), is(1L));
+        assertThat(digest.getOriginalMovie().id(), is(movieId));
+        assertThat(digest.getDuplicates(), hasSize(0));
     }
 }
