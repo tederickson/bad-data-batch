@@ -56,6 +56,14 @@ Some issues found with actors_and_directors.csv with columns "movieId", "name", 
 * Changes in role capitalization:
   * 283055,"Andy Bausch",Cast
   * 143769,"Robbie Sublett",cast
+* 12642 movies do not have a matching actor_and_director row.
+```sql
+SELECT Count(m.*)
+FROM   PUBLIC.movie m
+       LEFT JOIN PUBLIC.actor_and_director a
+              ON a.movie_id = m.id
+WHERE  a.movie_id IS NULL; 
+```
 
 The database contains 827,126 rows while actors_and_directors.csv contains 844,338 lines.
 
