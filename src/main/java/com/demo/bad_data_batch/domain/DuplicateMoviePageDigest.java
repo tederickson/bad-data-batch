@@ -8,5 +8,6 @@ import java.util.List;
 public class DuplicateMoviePageDigest {
     private Long count;
     private MovieDigest originalMovie;
+    private List<ActorAndDirectorDigest> cast;
     private List<DuplicateMovieDigest> duplicates;
 }

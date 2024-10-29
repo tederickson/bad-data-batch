@@ -4,11 +4,14 @@ import com.demo.bad_data_batch.domain.DuplicateMoviePageDigest;
 import com.demo.bad_data_batch.domain.MovieDigest;
 import com.demo.bad_data_batch.exception.InvalidRequestException;
 import com.demo.bad_data_batch.exception.NotFoundException;
+import com.demo.bad_data_batch.model.ActorAndDirector;
 import com.demo.bad_data_batch.model.DuplicateMovieCount;
 import com.demo.bad_data_batch.model.IDuplicateMovieCount;
 import com.demo.bad_data_batch.model.Movie;
+import com.demo.bad_data_batch.repository.ActorAndDirectorRepository;
 import com.demo.bad_data_batch.repository.DuplicateMovieRepository;
 import com.demo.bad_data_batch.repository.MovieRepository;
+import com.demo.bad_data_batch.service.ActorsAndDirectorsService;
 import com.demo.bad_data_batch.service.DuplicateMovieService;
 import com.demo.bad_data_batch.service.MovieService;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,14 +39,19 @@ class MovieControllerTest {
     private MovieController movieController;
     private MovieRepository movieRepository;
     private DuplicateMovieRepository duplicateMovieRepository;
-
+    private ActorAndDirectorRepository actorAndDirectorRepository;
 
     @BeforeEach
     void setUp() {
         movieRepository = mock(MovieRepository.class);
         duplicateMovieRepository = mock(DuplicateMovieRepository.class);
+        actorAndDirectorRepository = mock(ActorAndDirectorRepository.class);
+
         MovieService movieService = new MovieService(movieRepository);
-        DuplicateMovieService duplicateMovieService = new DuplicateMovieService(duplicateMovieRepository, movieService);
+        ActorsAndDirectorsService actorsAndDirectorsService = new ActorsAndDirectorsService(actorAndDirectorRepository);
+        DuplicateMovieService duplicateMovieService = new DuplicateMovieService(duplicateMovieRepository,
+                                                                                movieService,
+                                                                                actorsAndDirectorsService);
         movieController = new MovieController(movieService, duplicateMovieService);
     }
 
@@ -109,6 +117,9 @@ class MovieControllerTest {
                                            PageRequest.of(1, 12),
                                            17));
         when(movieRepository.findById(movieId)).thenReturn(Optional.of(movie));
+        when(actorAndDirectorRepository.findByMovieIdOrderByRole(movieId)).thenReturn(List.of(
+                new ActorAndDirector().setMovieId(movieId)
+        ));
         Page<DuplicateMoviePageDigest> response = movieController.findDuplicateTitles(1, 12);
 
         assertThat(response.getContent(), hasSize(1));
@@ -117,5 +128,6 @@ class MovieControllerTest {
         assertThat(digest.getCount(), is(1L));
         assertThat(digest.getOriginalMovie().id(), is(movieId));
         assertThat(digest.getDuplicates(), hasSize(0));
+        assertThat(digest.getCast().getFirst().movieId(), is(movieId));
     }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 public class DuplicateMovieService {
     private final DuplicateMovieRepository duplicateMovieRepository;
     private final MovieService movieService;
+    private final ActorsAndDirectorsService actorsAndDirectorsService;
 
     public Page<DuplicateMovieDigest> findMismatchedTitles(final Pageable pageable) {
         Page<DuplicateMovie> page = duplicateMovieRepository.findMismatchedTitles(pageable);
@@ -44,9 +45,12 @@ public class DuplicateMovieService {
             DuplicateMoviePageDigest digest = new DuplicateMoviePageDigest();
 
             digest.setCount(duplicateMovieCount.getMovieCount());
-            digest.setOriginalMovie(movieService.getMovie(duplicateMovieCount.getMovieKey()));
-            List<DuplicateMovieDigest> duplicates =
-                    duplicateMovieRepository.findByMovieId(duplicateMovieCount.getMovieKey()).stream()
+
+            Long movieId = duplicateMovieCount.getMovieKey();
+            digest.setOriginalMovie(movieService.getMovie(movieId));
+            digest.setCast(actorsAndDirectorsService.getMovieCast(movieId));
+
+            List<DuplicateMovieDigest> duplicates = duplicateMovieRepository.findByMovieId(movieId).stream()
                             .map(DuplicateModelMapper::toRest)
                             .toList();
             digest.setDuplicates(duplicates);
