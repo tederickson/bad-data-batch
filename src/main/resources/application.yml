@@ -7,7 +7,6 @@ spring:
     username:
     password:
     driver-class-name: org.postgresql.Driver
-    initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: none
@@ -26,6 +25,11 @@ spring:
     jdbc:
       initialize-schema: always
     job:
+      enabled: true
+
+  sql.init.mode: always
+  threads:
+    virtual:
       enabled: true
 
 logging:

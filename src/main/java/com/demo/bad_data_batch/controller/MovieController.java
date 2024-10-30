@@ -33,14 +33,14 @@ public class MovieController {
             @ApiResponse(responseCode = "200", description = "Get Movie"), //
             @ApiResponse(responseCode = "404", description = "Movie id not found")})
     @GetMapping(value = "/{id}", produces = "application/json")
-    public MovieDigest getMovie(@PathVariable("id") final Long id) {
+    public MovieDigest getMovie(@PathVariable final Long id) {
         return movieService.getMovie(id);
     }
 
     @Operation(summary = "Get all movies for one year")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get Movies")})
     @GetMapping(value = "/years/{year}", produces = "application/json")
-    public Page<MovieDigest> getMoviesByYear(@PathVariable("year") final Integer year,
+    public Page<MovieDigest> getMoviesByYear(@PathVariable final Integer year,
                                              @RequestParam(defaultValue = "0") final Integer pageNumber,
                                              @RequestParam(defaultValue = "25") final Integer pageSize) {
         return movieService.getMoviesByYear(year, PageRequest.of(pageNumber, pageSize));
@@ -49,7 +49,7 @@ public class MovieController {
     @Operation(summary = "Get all movies by title")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Get Movies")})
     @GetMapping(value = "/titles/{title}", produces = "application/json")
-    public List<MovieDigest> getMoviesByTitle(@PathVariable("title") final String title) {
+    public List<MovieDigest> getMoviesByTitle(@PathVariable final String title) {
         return movieService.getMoviesByTitle(title);
     }
 
